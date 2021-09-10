@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "ofxOpenCv.h"
 
 class ofApp : public ofBaseApp{
 
@@ -21,5 +22,13 @@ class ofApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
 		
+		int threshold;
+		ofImage image;
+		ofImage background;
+		ofxCvColorImage colorImg;
+		ofxCvGrayscaleImage grayImg;
+		ofxCvGrayscaleImage grayBg;
+		ofxCvGrayscaleImage grayDiff;
+		ofxCvContourFinder contourFinder;
 		ofMesh mesh;
 };
