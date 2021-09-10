@@ -1,0 +1,20 @@
+# bin
+
+*/bin/*
+!*/bin/data/
+
+# IDE
+
+# Visual Studio
+/*/*.sln
+/*/*.vcxproj
+/*/*.vcxproj.user
+/*/*.vcxproj.filters
+/*/icon.rc
+/*/.vs
+
+# OS
+
+# Windows
+/*/obj
+
