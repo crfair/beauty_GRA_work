@@ -3,7 +3,7 @@
 //--------------------------------------------------------------
 void ofApp::setup() {
 
-	vidPlayer.load("../media/fingers.mov");
+	vidPlayer.load("swarming_trim.mp4"); // stored in bin/data
 	vidPlayer.play();
 	vidPlayer.setLoopState(OF_LOOP_NORMAL); // sets the player to loop the video end to beginning
 
