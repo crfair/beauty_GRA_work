@@ -2,20 +2,42 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-	mesh.setMode(OF_PRIMITIVE_LINE_LOOP); // set the ofPrimitiveMode
+	mesh.setMode(OF_PRIMITIVE_LINES); // set the ofPrimitiveMode
+	mesh.enableColors();
+	mesh.enableIndices();
 
-	ofVec3f top(100.0, 50.0, 0.0); // ofVec3f takes 3 floats for x, y, and z
-	ofVec3f left(50.0, 150.0, 0.0);
-	ofVec3f right(150.0, 150.0, 0.0);
+	ofVec3f eyeLeftTop(50.0, 25.0, 0.0);
+	ofVec3f eyeLeftBottom(50.0, 50.0, 0.0);
+	ofVec3f eyeRightTop(100.0, 25.0, 0.0);
+	ofVec3f eyeRightBottom(100.0, 50.0, 0.0);
+	ofVec3f mouthLeft(50.0, 75.0, 0.0);
+	ofVec3f mouthMiddle(75.0, 100.0, 0.0);
+	ofVec3f mouthRight(100.0, 75.0, 0.0);
 
-	mesh.addVertex(top); // add all the vertexes to the mesh
-	mesh.addColor(ofFloatColor(1.0, 0.0, 0.0)); // Red
+	mesh.addVertex(eyeLeftTop);
+	mesh.addVertex(eyeLeftBottom);
+	mesh.addIndex(0);
+	mesh.addIndex(1);
+	mesh.addColor(ofFloatColor(0.0, 1.0, 1.0));
+	mesh.addColor(ofFloatColor(0.0, 1.0, 1.0));
 
-	mesh.addVertex(left);
-	mesh.addColor(ofFloatColor(0.0, 1.0, 0.0)); // Green
+	mesh.addVertex(eyeRightTop);
+	mesh.addVertex(eyeRightBottom);
+	mesh.addIndex(2);
+	mesh.addIndex(3);
+	mesh.addColor(ofFloatColor(0.0, 1.0, 1.0));
+	mesh.addColor(ofFloatColor(0.0, 1.0, 1.0));
 
-	mesh.addVertex(right);
-	mesh.addColor(ofFloatColor(0.0, 0.0, 1.0)); // Blue
+	mesh.addVertex(mouthLeft);
+	mesh.addVertex(mouthMiddle);
+	mesh.addVertex(mouthRight);
+	mesh.addIndex(4);
+	mesh.addIndex(5);
+	mesh.addIndex(5);
+	mesh.addIndex(6);
+	mesh.addColor(ofFloatColor(0.0, 1.0, 0.0));
+	mesh.addColor(ofFloatColor(0.0, 1.0, 0.0));
+	mesh.addColor(ofFloatColor(0.0, 1.0, 0.0));
 }
 
 //--------------------------------------------------------------
