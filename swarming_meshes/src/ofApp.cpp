@@ -25,7 +25,7 @@ void ofApp::setup(){
 	mesh.setMode(OF_PRIMITIVE_LINES); // set mode to create points only
 	mesh.enableColors();
 
-	float intensityThreshold = 125.0;
+	float intensityThreshold = 120.0;
 	int w = image.getWidth();
 	int h = image.getHeight();
 

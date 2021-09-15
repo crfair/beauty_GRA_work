@@ -16,5 +16,5 @@
 # OS
 
 # Windows
-/*/obj
-
+/*/obj/
+**/x64/
