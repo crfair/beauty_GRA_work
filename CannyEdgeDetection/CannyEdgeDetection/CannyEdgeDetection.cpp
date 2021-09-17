@@ -22,7 +22,7 @@ static void CannyThreshold(int, void*)
 {
 	blur(src_gray, detected_edges, Size(3, 3)); // blur the image with a filter of kernel size 3
 
-	 // takes (source image in grayscale, output of the detector, user threshold value, high threshold (rec 3 times low threshold), kernel size)
+	// takes (source image in grayscale, output of the detector, user threshold value, high threshold (rec 3 times low threshold), kernel size)
 	Canny(detected_edges, detected_edges, lowThreshold, lowThreshold * ratio, kernel_size);
 
 	dst = Scalar::all(0); // fills dst with zeros (completely black image)

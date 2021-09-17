@@ -3,17 +3,17 @@
 //--------------------------------------------------------------
 void ofApp::setup() {
 
-	vidPlayer.load("swarming_trim.mp4"); // stored in bin/data
+	vidPlayer.load("swarming_even_smaller.mp4"); // stored in bin/data
 	vidPlayer.play();
 	vidPlayer.setLoopState(OF_LOOP_NORMAL); // sets the player to loop the video end to beginning
 
-	colorImg.allocate(320, 240); // set width and height of the images based on the target video
-	grayImg.allocate(320, 240);
-	grayBg.allocate(320, 240);
-	grayDiff.allocate(320, 240);
+	colorImg.allocate(640, 480); // set width and height of the images based on the target video
+	grayImg.allocate(640, 480);
+	grayBg.allocate(640, 480);
+	grayDiff.allocate(640, 480);
 
 	bLearnBakground = true; // the 'background' is considered to be the first frame of the video, but the user can also press space to set it manually
-	threshold = 80; // threshold is used in absolute differencing operations to determine how different pixels have to be from their background to be considered foreground
+	threshold = 20; // threshold is used in absolute differencing operations to determine how different pixels have to be from their background to be considered foreground
 					// this value can be changed while the video is running
 }
 
@@ -44,7 +44,7 @@ void ofApp::update() {
 
 		// find contours which are between the size of 20 pixels and 1/3 the w*h pixels.
 		// also, find holes is set to true so we will get interior contours as well
-		contourFinder.findContours(grayDiff, 20, (340 * 240) / 3, 10, true); // find holes
+		contourFinder.findContours(grayDiff, 20, (660 * 480) / 3, 10, true); // find holes
 	}
 
 }
@@ -55,15 +55,15 @@ void ofApp::draw() {
 	// draw the incoming, the grayscale, the bg and the thresholded difference
 	ofSetHexColor(0xffffff);
 	colorImg.draw(20, 20);
-	grayImg.draw(360, 20);
-	grayBg.draw(20, 280);
-	grayDiff.draw(360, 280);
+	//grayImg.draw(1240, 20);
+	//grayBg.draw(20, 1000);
+	//grayDiff.draw(1240, 1000);
 
 	// then draw the contours:
 
 	ofFill();
 	ofSetHexColor(0x333333);
-	ofDrawRectangle(360, 540, 320, 240);
+	ofDrawRectangle(700, 20, 640, 480);
 	ofSetHexColor(0xffffff);
 
 	// we could draw the whole contour finder
@@ -72,14 +72,14 @@ void ofApp::draw() {
 	// or, instead we can draw each blob individually from the blobs vector,
 	// this is how to get access to them:
 	for (int i = 0; i < contourFinder.nBlobs; i++) {
-		contourFinder.blobs[i].draw(360, 540);
+		contourFinder.blobs[i].draw(700, 20);
 
 		// draw over the centroid if the blob is a hole
 		ofSetColor(255);
 		if (contourFinder.blobs[i].hole) {
 			ofDrawBitmapString("hole",
-				contourFinder.blobs[i].boundingRect.getCenter().x + 360,
-				contourFinder.blobs[i].boundingRect.getCenter().y + 540);
+				contourFinder.blobs[i].boundingRect.getCenter().x + 700,
+				contourFinder.blobs[i].boundingRect.getCenter().y + 20);
 		}
 	}
 
@@ -90,7 +90,7 @@ void ofApp::draw() {
 		<< "press space to capture bg" << endl
 		<< "threshold " << threshold << " (press: +/-)" << endl
 		<< "num blobs found " << contourFinder.nBlobs << ", fps: " << ofGetFrameRate();
-	ofDrawBitmapString(reportStr.str(), 20, 600);
+	ofDrawBitmapString(reportStr.str(), 20, 550);
 
 }
 
