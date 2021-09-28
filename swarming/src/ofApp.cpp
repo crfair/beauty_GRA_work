@@ -12,7 +12,7 @@ void ofApp::setup() {
 	grayBg.allocate(640, 480);
 	grayDiff.allocate(640, 480);
 
-	bLearnBakground = true; // the 'background' is considered to be the first frame of the video, but the user can also press space to set it manually
+	//bLearnBakground = true; // the 'background' is considered to be the first frame of the video, but the user can also press space to set it manually
 	threshold = 20; // threshold is used in absolute differencing operations to determine how different pixels have to be from their background to be considered foreground
 					// this value can be changed while the video is running
 }
@@ -46,6 +46,40 @@ void ofApp::update() {
 		// also, find holes is set to true so we will get interior contours as well
 		contourFinder.findContours(grayDiff, 20, (660 * 480) / 3, 10, true); // find holes
 	}
+
+	//ofBackground(100, 100, 100);
+
+	//ofVideoPlayer vidPlayer;
+	//vidPlayer.load("swarming_even_smaller.mp4");
+
+	//cv::VideoCapture capture("swarming_even_smaller.mp4");
+
+	//cv::Ptr<cv::BackgroundSubtractor> pBackSub = cv::createBackgroundSubtractorMOG2();
+
+	//cv::Mat frame, fgMask;
+
+	//while (true) {
+	//	capture >> frame;
+	//	if (frame.empty())
+	//		break;
+
+	//	// update background model
+	//	pBackSub->apply(frame, fgMask);
+
+	//	// get frame number and write it on frame
+	//	cv::rectangle(frame, cv::Point(10, 2), cv::Point(100, 20), cv::Scalar(255, 255, 255), -1);
+	//	stringstream ss;
+	//	ss << capture.get(cv::CAP_PROP_POS_FRAMES);
+	//	string frameNumberString = ss.str();
+	//	cv::putText(frame, frameNumberString.c_str(), cv::Point(15, 15), cv::FONT_HERSHEY_SIMPLEX, 0.5, cv::Scalar(0, 0, 0));
+
+	//	imshow("Frame", frame);
+	//	imshow("FG Mask", fgMask);
+
+	//	int keyboard = cv::waitKey(30);
+	//	if (keyboard == 'q' || keyboard == 27)
+	//		break;
+	//}
 
 }
 
@@ -159,5 +193,9 @@ void ofApp::gotMessage(ofMessage msg) {
 
 //--------------------------------------------------------------
 void ofApp::dragEvent(ofDragInfo dragInfo) {
+
+}
+
+void absDiffBackSub() {
 
 }
