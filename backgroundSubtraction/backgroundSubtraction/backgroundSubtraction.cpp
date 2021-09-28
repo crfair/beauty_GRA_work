@@ -15,6 +15,7 @@ void backSubMOG2KNN(std::string model)
 		pBackSub = createBackgroundSubtractorKNN();
 	VideoCapture capture("swarming_even_smaller.mp4");
 	Mat frame, fgMask;
+	Mat thresh;
 
 	while (true)
 	{
@@ -22,6 +23,8 @@ void backSubMOG2KNN(std::string model)
 		if (frame.empty())
 			break;
 
+		//cvtColor(frame, frame, COLOR_BGR2GRAY);
+		//GaussianBlur(frame, frame, Size(1, 1), 0);
 		pBackSub->apply(frame, fgMask);
 
 		rectangle(frame, Point(10, 2), Point(100, 20), Scalar(255, 255, 255), -1);
@@ -36,8 +39,20 @@ void backSubMOG2KNN(std::string model)
 		int keyboard = waitKey(30);
 		if (keyboard == 'q' || keyboard == 27)
 			break;
+
+		thresh = threshold(fgMask, thresh, 150, 255, THRESH_BINARY);
+
+		std::vector<std::vector<Point>> contours;
+		std::vector<Vec4i> hierarchy;
+		findContours(thresh, contours, hierarchy, RETR_TREE, CHAIN_APPROX_NONE);
+
+		Mat image_copy = fgMask.clone();
+		drawContours(image_copy, contours, -1, Scalar(0, 255, 0), 2);
+		imshow("None approximation", contours);
 	}
 }
+
+
 
 int main(int argc, char* argv[]) 
 {
