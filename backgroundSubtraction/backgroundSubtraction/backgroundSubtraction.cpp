@@ -10,22 +10,22 @@ int thresh = 200;
 
 void edge_detector()
 {
-	Mat canny_output;
+	/*Mat canny_output;
 	Canny(fgMask, canny_output, thresh, thresh * 2);
 
-	imshow("Canny", canny_output);
+	imshow("Canny", canny_output);*/
 
-	/*std::vector<std::vector<Point>> contours;
+	std::vector<std::vector<Point>> contours;
 	std::vector<Vec4i> hierarchy;
 	findContours(fgMask, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE);
 	Mat drawing = Mat::zeros(fgMask.size(), CV_8UC3);
 	
 	for (size_t i = 0; i < contours.size(); i++)
 	{
-		drawContours(drawing, contours, int(i), Scalar(0, 0, 0), 2, LINE_8, hierarchy, 0);
+		drawContours(drawing, contours, int(i), Scalar(255, 255, 255), 2, LINE_8, hierarchy, 0);
 	}
 
-	imshow("Contours", drawing);*/
+	imshow("Contours", drawing);
 }
 
 void backSubMOG2KNN(std::string model)
@@ -34,8 +34,8 @@ void backSubMOG2KNN(std::string model)
 	if (model == "MOG2")
 		pBackSub = createBackgroundSubtractorMOG2(500, 100, false);
 	else if (model == "KNN")
-		pBackSub = createBackgroundSubtractorKNN(1000, 500.0, false);
-	VideoCapture capture("swarming_even_smaller.mp4");
+		pBackSub = createBackgroundSubtractorKNN(1000, 200.0, false);
+	VideoCapture capture("backgroundSubtraction/swarming_even_smaller.mp4");
 
 	while (true)
 	{
@@ -58,7 +58,7 @@ void backSubMOG2KNN(std::string model)
 		imshow(src_window, frame);
 		imshow("FG Mask", fgMask);
 
-		// edge_detector();
+		edge_detector();
 
 		int keyboard = waitKey(30);
 		if (keyboard == 'q' || keyboard == 27)
