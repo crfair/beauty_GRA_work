@@ -15,7 +15,7 @@ void ofApp::setup() {
 	bLearnBakground = true; // the 'background' is considered to be the first frame of the video, but the user can also press space to set it manually
 	threshold = 20; // threshold is used in absolute differencing operations to determine how different pixels have to be from their background to be considered foreground
 					// this value can be changed while the video is running
-}
+} 
 
 //--------------------------------------------------------------
 void ofApp::update() {
