@@ -18,7 +18,7 @@ void edge_detector()
 
 	std::vector<std::vector<Point>> contours;
 	std::vector<Vec4i> hierarchy;
-	findContours(fgMask, contours, hierarchy, RETR_TREE, CHAIN_APPROX_SIMPLE);
+	findContours(fgMask, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
 	std::vector<std::vector<Point>> hull(contours.size());
 	for (int i = 0; i < contours.size(); i++)
 		convexHull(Mat(contours[i]), hull[i], false);
