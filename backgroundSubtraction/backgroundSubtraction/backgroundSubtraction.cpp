@@ -11,11 +11,6 @@ int thresh = 200;
 
 void edge_detector()
 {
-	/*Mat canny_output;
-	Canny(fgMask, canny_output, thresh, thresh * 2);
-
-	imshow("Canny", canny_output);*/
-
 	std::vector<std::vector<Point>> contours;
 	std::vector<Vec4i> hierarchy;
 	findContours(fgMask, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
