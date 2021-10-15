@@ -1,10 +1,12 @@
 #pragma once
 
-#include <opencv2/imgcodecs.hpp>
-#include <opencv2/imgproc.hpp>
-#include <opencv2/videoio.hpp>
-#include <opencv2/highgui.hpp>
-#include <opencv2/video.hpp>
+#include "ofMain.h"
+#include <ofxOpenCv.h>
+//#include <opencv2/imgcodecs.hpp>
+//#include <opencv2/imgproc.hpp>
+//#include <opencv2/videoio.hpp>
+//#include <opencv2/highgui.hpp>
+//#include <opencv2/video.hpp>
 #include <iostream>
 
 using namespace cv;
@@ -17,6 +19,7 @@ public:
 private:
 
 	void edge_detector();
+	void pointsTo3D();
 
 	Mat frame;
 	Mat fgMask;

@@ -1,5 +1,10 @@
 #include "swarming.h"
 
+void swarming::pointsTo3D()
+{
+
+}
+
 void swarming::edge_detector()
 {
 	findContours(fgMask, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
@@ -30,7 +35,7 @@ void swarming::backSubMOG2KNN(std::string model)
 	else if (model == "KNN")
 		pBackSub = createBackgroundSubtractorKNN(5000, 150.0, false);
 
-	VideoCapture capture("swarming_even_smaller.mp4");
+	VideoCapture capture("data/swarming_even_smaller.mp4");
 
 	while (true)
 	{
@@ -48,7 +53,7 @@ void swarming::backSubMOG2KNN(std::string model)
 		putText(frame, frameNumberString.c_str(), Point(15, 15), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 0, 0));
 
 		imshow("Frame", frame);
-		imshow("FG Mask", fgMask);
+		//imshow("FG Mask", fgMask);
 
 		edge_detector();
 

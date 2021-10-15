@@ -1,4 +1,5 @@
-#include "swarming.h"
+#include "ofMain.h"
+#include "..\swarming.h"
 
 int main() {
 	swarming app;
