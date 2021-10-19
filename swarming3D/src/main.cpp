@@ -2,7 +2,10 @@
 #include "..\swarming.h"
 
 int main() {
-	swarming app;
-	app.backSubMOG2KNN("KNN");
-	return 0;
+	
+	ofSetupOpenGL(640, 480, OF_WINDOW);
+	ofRunApp(new swarming());
+	
+	//swarming app;
+	//app.backSubMOG2KNN("KNN");
 }

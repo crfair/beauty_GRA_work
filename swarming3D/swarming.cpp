@@ -1,5 +1,26 @@
 #include "swarming.h"
 
+// Called once at the start of the app
+void swarming::setup()
+{
+	pBackSub = createBackgroundSubtractorKNN(5000, 150.0, false);
+	VideoCapture capture("data/swarming_even_smaller.mp4");
+	// vidPlayer.load("swarming_even_smaller.mp4");
+}
+
+
+// Called repeatedly just before draw
+void swarming::update()
+{
+
+}
+
+// Called repeatedly just after update
+void swarming::draw()
+{
+
+}
+
 void swarming::pointsTo3D()
 {
 
@@ -28,37 +49,23 @@ void swarming::edge_detector()
 	imshow("Contours", drawing);
 }
 
-void swarming::backSubMOG2KNN(std::string model)
+void swarming::backSubKNN()
 {
-	if (model == "MOG2")
-		pBackSub = createBackgroundSubtractorMOG2(5000, 50, false);
-	else if (model == "KNN")
-		pBackSub = createBackgroundSubtractorKNN(5000, 150.0, false);
+	capture >> frame;
+	if (frame.empty())
+		return;
 
-	VideoCapture capture("data/swarming_even_smaller.mp4");
+	cvtColor(frame, frame, COLOR_BGR2GRAY);
+	//frame.convertTo(frame, -1, 0.5, 0);
+	//GaussianBlur(frame, frame, Size(3, 3), 0);
+	pBackSub->apply(frame, fgMask);
 
-	while (true)
-	{
-		capture >> frame;
-		if (frame.empty())
-			break;
+	rectangle(frame, Point(10, 2), Point(100, 20), Scalar(255, 255, 255), -1);
+	ss << capture.get(CAP_PROP_POS_FRAMES);
+	putText(frame, frameNumberString.c_str(), Point(15, 15), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 0, 0));
 
-		cvtColor(frame, frame, COLOR_BGR2GRAY);
-		//frame.convertTo(frame, -1, 0.5, 0);
-		//GaussianBlur(frame, frame, Size(3, 3), 0);
-		pBackSub->apply(frame, fgMask);
+	imshow("Frame", frame);
+	//imshow("FG Mask", fgMask);
 
-		rectangle(frame, Point(10, 2), Point(100, 20), Scalar(255, 255, 255), -1);
-		ss << capture.get(CAP_PROP_POS_FRAMES);
-		putText(frame, frameNumberString.c_str(), Point(15, 15), FONT_HERSHEY_SIMPLEX, 0.5, Scalar(0, 0, 0));
-
-		imshow("Frame", frame);
-		//imshow("FG Mask", fgMask);
-
-		edge_detector();
-
-		int keyboard = waitKey(30);
-		if (keyboard == 'q' || keyboard == 27)
-			break;
-	}
+	edge_detector();
 }

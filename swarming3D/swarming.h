@@ -11,10 +11,13 @@
 
 using namespace cv;
 
-class swarming {
+class swarming : public ofBaseApp {
 
 public:
-	void backSubMOG2KNN(std::string model);
+	void setup();
+	void update();
+	void draw();
+	void backSubKNN();
 
 private:
 
@@ -37,6 +40,7 @@ private:
 
 	Ptr<BackgroundSubtractor> pBackSub;
 	VideoCapture capture;
+	ofVideoPlayer vidPlayer;
 
 	std::stringstream ss;
 	std::string frameNumberString = ss.str();
