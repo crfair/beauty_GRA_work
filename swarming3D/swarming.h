@@ -11,7 +11,7 @@
 #include <iostream>
 
 using namespace cv;
-using namespace ofxCv;
+//using namespace ofxCv;
 
 class swarming : public ofBaseApp {
 

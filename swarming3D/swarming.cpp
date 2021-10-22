@@ -20,7 +20,7 @@ void swarming::update()
 
 	if (newFrame) 
 	{
-		frame = toCv(vidPlayer.getPixels());
+		frame = ofxCv::toCv(vidPlayer.getPixels());
 
 		pBackSub->apply(frame, fgMask);
 	}
