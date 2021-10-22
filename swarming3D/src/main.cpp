@@ -3,9 +3,9 @@
 
 int main() {
 	
-	//ofSetupOpenGL(1280, 960, OF_WINDOW);
-	//ofRunApp(new swarming());
+	ofSetupOpenGL(1280, 960, OF_WINDOW);
+	ofRunApp(new swarming());
 	
-	swarming app;
-	app.backSubKNN();
+	//swarming app;
+	//app.backSubKNN();
 }

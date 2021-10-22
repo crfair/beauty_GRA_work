@@ -17,10 +17,13 @@ class swarming : public ofBaseApp {
 
 public:
 
-	void backSubKNN();
+	void setup();
+	void update();
+	void draw();
 
 private:
 
+	void backSubKNN();
 	void edge_detector();
 	void pointsTo3D();
 
