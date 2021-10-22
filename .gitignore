@@ -2,6 +2,8 @@
 
 */bin/*
 !*/bin/data/
+**/Debug/
+*/addons/*
 
 # IDE
 

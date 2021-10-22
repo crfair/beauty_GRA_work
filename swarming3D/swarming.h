@@ -11,14 +11,12 @@
 #include <iostream>
 
 using namespace cv;
-//using namespace ofxCv;
+using namespace ofxCv;
 
 class swarming : public ofBaseApp {
 
 public:
-	void setup();
-	void update();
-	void draw();
+
 	void backSubKNN();
 
 private:
