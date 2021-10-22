@@ -4,15 +4,26 @@
 void swarming::setup()
 {
 	pBackSub = createBackgroundSubtractorKNN(5000, 150.0, false);
-	VideoCapture capture("data/swarming_even_smaller.mp4");
-	// vidPlayer.load("swarming_even_smaller.mp4");
+	// VideoCapture capture("data/swarming_even_smaller.mp4");
+	vidPlayer.load("swarming_even_smaller.mp4");
+	vidPlayer.setLoopState(OF_LOOP_NORMAL);
 }
 
 
 // Called repeatedly just before draw
 void swarming::update()
 {
+	bool newFrame = false;
 
+	vidPlayer.update();
+	newFrame = vidPlayer.isFrameNew();
+
+	if (newFrame) 
+	{
+		frame = toCv(vidPlayer.getPixels());
+
+		pBackSub->apply(frame, fgMask);
+	}
 }
 
 // Called repeatedly just after update

@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include <ofxOpenCv.h>
+#include <ofxCv/src/ofxCv.h>
 //#include <opencv2/imgcodecs.hpp>
 //#include <opencv2/imgproc.hpp>
 //#include <opencv2/videoio.hpp>
@@ -10,6 +11,7 @@
 #include <iostream>
 
 using namespace cv;
+using namespace ofxCv;
 
 class swarming : public ofBaseApp {
 
