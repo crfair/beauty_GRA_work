@@ -29,6 +29,7 @@ void swarming::draw()
 	ofSetHexColor(0xffffff);
 	drawMat(frame, 0, 0);
 	drawMat(fgMask, 640, 0);
+	drawMat(drawing, 0, 480);
 }
 
 void swarming::pointsTo3D()
@@ -44,17 +45,17 @@ void swarming::edge_detector()
 		convexHull(Mat(contours[i]), hull[i], false);
 	drawing = Mat::zeros(fgMask.size(), CV_8UC3);
 
-	//for (size_t i = 0; i < contours.size(); i++)
-	//{
-	//	bounds = boundingRect(contours[i]);
+	for (size_t i = 0; i < contours.size(); i++)
+	{
+		bounds = boundingRect(contours[i]);
 
-	//	if (contourArea(contours[i]) > 200.0)
-	//	{
-	//		rectangle(drawing, bounds, color_bounds);
-	//		drawContours(drawing, contours, int(i), color_contours, 2, LINE_8, hierarchy, 0);
-	//		drawContours(drawing, hull, int(i), color_hull, 2, LINE_8, hierarchy, 0);
-	//	}
-	//}
+		if (contourArea(contours[i]) > 200.0)
+		{
+			rectangle(drawing, bounds, color_bounds);
+			drawContours(drawing, contours, int(i), color_contours, 2, LINE_8, hierarchy, 0);
+			drawContours(drawing, hull, int(i), color_hull, 2, LINE_8, hierarchy, 0);
+		}
+	}
 }
 
 void swarming::backSubKNN(Mat frame)
