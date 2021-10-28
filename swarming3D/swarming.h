@@ -23,13 +23,16 @@ public:
 
 private:
 
-	void backSubKNN();
+	void backSubKNN(Mat frame);
 	void edge_detector();
 	void pointsTo3D();
 
 	Mat frame;
 	Mat fgMask;
 	int thresh = 200;
+
+	ofImage ofFrame;
+	ofImage ofMask;
 
 	std::vector<std::vector<Point>> contours;
 	std::vector<Vec4i> hierarchy;
