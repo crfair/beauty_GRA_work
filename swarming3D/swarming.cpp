@@ -4,6 +4,7 @@ void swarming::setup()
 {	
 	pBackSub = createBackgroundSubtractorKNN(5000, 150.0, false);
 	vidPlayer.load("swarming_even_smaller.mp4");
+	isPlaying = true;
 	vidPlayer.play();
 	vidPlayer.setLoopState(OF_LOOP_NORMAL);
 
@@ -12,7 +13,12 @@ void swarming::setup()
 }
 
 void swarming::update()
-{	
+{
+	if (vidPlayer.isPlaying() != isPlaying)
+	{
+		vidPlayer.setPaused(!isPlaying);
+	}
+
 	vidPlayer.update();
 	frame = toCv(vidPlayer.getPixels());
 
@@ -25,10 +31,24 @@ void swarming::update()
 
 void swarming::draw()
 {
-	ofSetHexColor(0xffffff);
-	drawMat(frame, 0, 0);
-	drawMat(fgMask, 640, 0);
-	drawMat(drawing, 0, 480);
+	if (isPlaying)
+	{
+		ofSetHexColor(0xffffff);
+		drawMat(frame, 0, 0);
+		drawMat(fgMask, 640, 0);
+		drawMat(drawing, 0, 480);
+	}
+}
+
+void swarming::keyPressed(int key)
+{
+	switch (key)
+	{
+	case ' ':
+		isPlaying = !isPlaying;
+		ofSetBackgroundAuto(isPlaying);
+		break;
+	}
 }
 
 void swarming::pointsTo3D()

@@ -19,6 +19,7 @@ public:
 	void setup();
 	void update();
 	void draw();
+	void keyPressed(int key);
 
 private:
 
@@ -46,4 +47,6 @@ private:
 
 	Ptr<BackgroundSubtractor> pBackSub;
 	ofVideoPlayer vidPlayer;
+
+	bool isPlaying;
 };
