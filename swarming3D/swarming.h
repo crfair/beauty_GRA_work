@@ -39,6 +39,7 @@ private:
 	Scalar color_contours = Scalar(0, 255, 0);
 	Scalar color_hull = Scalar(255, 0, 0);
 	Scalar color_bounds = Scalar(0, 0, 255);
+	Scalar color_approx = Scalar(0, 255, 255);
 	Rect bounds;
 
 	Ptr<BackgroundSubtractor> pBackSub;

@@ -8,7 +8,7 @@ void swarming::setup()
 	vidPlayer.play();
 	vidPlayer.setLoopState(OF_LOOP_NORMAL);\
 
-	mesh.setMode(OF_PRIMITIVE_TRIANGLES);
+	mesh.setMode(OF_PRIMITIVE_LINES);
 }
 
 void swarming::update()
@@ -18,15 +18,18 @@ void swarming::update()
 		vidPlayer.setPaused(!isPlaying);
 	}
 
-	vidPlayer.update();
-	frame = toCv(vidPlayer.getPixels());
+	if (isPlaying)
+	{
+		vidPlayer.update();
+		frame = toCv(vidPlayer.getPixels());
 
-	if (frame.empty())
-		return;
+		if (frame.empty())
+			return;
 
-	backSubKNN(frame);
-	edge_detector();
-	pointsTo3D();
+		backSubKNN(frame);
+		edge_detector();
+		pointsTo3D();
+	}
 }
 
 void swarming::draw()
@@ -38,6 +41,7 @@ void swarming::draw()
 		drawMat(fgMask, 640, 0);
 		drawMat(drawing, 0, 480);
 		drawMat(meshMat, 640, 480);
+		//mesh.draw();
 	}
 }
 
@@ -62,7 +66,7 @@ void swarming::pointsTo3D()
 		{
 			ofVec3f pos(p.x, p.y, 0.0);
 			mesh.addVertex(pos);
-			mesh.addColor(ofColor(0, 0, 0));
+			mesh.addColor(ofColor::white);
 		}
 	}
 
@@ -72,11 +76,11 @@ void swarming::pointsTo3D()
 void swarming::edge_detector()
 {
 	findContours(fgMask, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
-	//hull = std::vector<std::vector<Point>>(contours.size());
+	hull = std::vector<std::vector<Point>>(contours.size());
 	approx = std::vector<std::vector<Point>>(contours.size());
 	for (int i = 0; i < contours.size(); i++)
 	{
-		//convexHull(Mat(contours[i]), hull[i], false);
+		convexHull(Mat(contours[i]), hull[i], false);
 		double epsilon = 0.01 * arcLength(contours[i], true);
 		approxPolyDP(contours[i], approx[i], epsilon, true);
 	}
@@ -91,8 +95,8 @@ void swarming::edge_detector()
 		{
 			rectangle(drawing, bounds, color_bounds);
 			//drawContours(drawing, contours, int(i), color_contours, 2, LINE_8, hierarchy, 0);
-			//drawContours(drawing, hull, int(i), color_hull, 2, LINE_8, hierarchy, 0);
-			drawContours(drawing, approx, int(i), color_hull, 2, LINE_8, hierarchy, 0);
+			drawContours(drawing, hull, int(i), color_hull, 2, LINE_8, hierarchy, 0);
+			drawContours(drawing, approx, int(i), color_approx, 2, LINE_8, hierarchy, 0);
 		}
 	}
 }
