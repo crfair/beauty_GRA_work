@@ -8,7 +8,6 @@
 //#include <opencv2/videoio.hpp>
 //#include <opencv2/highgui.hpp>
 //#include <opencv2/video.hpp>
-#include <iostream>
 
 using namespace cv;
 using namespace ofxCv;
@@ -37,6 +36,7 @@ private:
 	std::vector<std::vector<Point>> contours;
 	std::vector<Vec4i> hierarchy;
 	std::vector<std::vector<Point>> hull;
+	std::vector<std::vector<Point>> approx;
 	Mat drawing;
 
 	Scalar color_contours = Scalar(0, 255, 0);
@@ -45,9 +45,5 @@ private:
 	Rect bounds;
 
 	Ptr<BackgroundSubtractor> pBackSub;
-	VideoCapture capture;
 	ofVideoPlayer vidPlayer;
-
-	std::stringstream ss;
-	std::string frameNumberString = ss.str();
 };

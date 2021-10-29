@@ -3,7 +3,6 @@
 void swarming::setup()
 {	
 	pBackSub = createBackgroundSubtractorKNN(5000, 150.0, false);
-	//VideoCapture capture("../bin/data/swarming_even_smaller.mp4");
 	vidPlayer.load("swarming_even_smaller.mp4");
 	vidPlayer.play();
 	vidPlayer.setLoopState(OF_LOOP_NORMAL);
@@ -40,9 +39,15 @@ void swarming::pointsTo3D()
 void swarming::edge_detector()
 {
 	findContours(fgMask, contours, hierarchy, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE);
-	hull = std::vector<std::vector<Point>>(contours.size());
+	//hull = std::vector<std::vector<Point>>(contours.size());
+	approx = std::vector<std::vector<Point>>(contours.size());
 	for (int i = 0; i < contours.size(); i++)
-		convexHull(Mat(contours[i]), hull[i], false);
+	{
+		//convexHull(Mat(contours[i]), hull[i], false);
+		double epsilon = 0.01 * arcLength(contours[i], true);
+		approxPolyDP(contours[i], approx[i], epsilon, true);
+	}
+
 	drawing = Mat::zeros(fgMask.size(), CV_8UC3);
 
 	for (size_t i = 0; i < contours.size(); i++)
@@ -52,15 +57,16 @@ void swarming::edge_detector()
 		if (contourArea(contours[i]) > 200.0)
 		{
 			rectangle(drawing, bounds, color_bounds);
-			drawContours(drawing, contours, int(i), color_contours, 2, LINE_8, hierarchy, 0);
-			drawContours(drawing, hull, int(i), color_hull, 2, LINE_8, hierarchy, 0);
+			//drawContours(drawing, contours, int(i), color_contours, 2, LINE_8, hierarchy, 0);
+			//drawContours(drawing, hull, int(i), color_hull, 2, LINE_8, hierarchy, 0);
+			drawContours(drawing, approx, int(i), color_hull, 2, LINE_8, hierarchy, 0);
 		}
 	}
 }
 
 void swarming::backSubKNN(Mat frame)
 {
-	//cvtColor(frame, frame, COLOR_BGR2GRAY);
+	cvtColor(frame, frame, COLOR_BGR2GRAY);
 	//frame.convertTo(frame, -1, 0.5, 0);
 	//GaussianBlur(frame, frame, Size(3, 3), 0);
 	pBackSub->apply(frame, fgMask);
