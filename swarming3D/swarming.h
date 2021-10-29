@@ -29,10 +29,6 @@ private:
 
 	Mat frame;
 	Mat fgMask;
-	int thresh = 200;
-
-	ofImage ofFrame;
-	ofImage ofMask;
 
 	std::vector<std::vector<Point>> contours;
 	std::vector<Vec4i> hierarchy;
@@ -49,4 +45,7 @@ private:
 	ofVideoPlayer vidPlayer;
 
 	bool isPlaying;
+
+	ofMesh mesh;
+	Mat meshMat;
 };

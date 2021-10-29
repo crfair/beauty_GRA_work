@@ -6,10 +6,9 @@ void swarming::setup()
 	vidPlayer.load("swarming_even_smaller.mp4");
 	isPlaying = true;
 	vidPlayer.play();
-	vidPlayer.setLoopState(OF_LOOP_NORMAL);
+	vidPlayer.setLoopState(OF_LOOP_NORMAL);\
 
-	ofFrame.allocate(640, 480, OF_IMAGE_COLOR);
-	ofFrame.allocate(640, 480, OF_IMAGE_COLOR);
+	mesh.setMode(OF_PRIMITIVE_TRIANGLES);
 }
 
 void swarming::update()
@@ -27,6 +26,7 @@ void swarming::update()
 
 	backSubKNN(frame);
 	edge_detector();
+	pointsTo3D();
 }
 
 void swarming::draw()
@@ -37,6 +37,7 @@ void swarming::draw()
 		drawMat(frame, 0, 0);
 		drawMat(fgMask, 640, 0);
 		drawMat(drawing, 0, 480);
+		drawMat(meshMat, 640, 480);
 	}
 }
 
@@ -53,7 +54,19 @@ void swarming::keyPressed(int key)
 
 void swarming::pointsTo3D()
 {
+	mesh.clear();
 
+	for (std::vector<Point> vec : approx)
+	{
+		for (Point p : vec)
+		{
+			ofVec3f pos(p.x, p.y, 0.0);
+			mesh.addVertex(pos);
+			mesh.addColor(ofColor(0, 0, 0));
+		}
+	}
+
+	meshMat = toCv(mesh);
 }
 
 void swarming::edge_detector()
