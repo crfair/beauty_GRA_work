@@ -6,9 +6,9 @@ void swarming::setup()
 	vidPlayer.load("swarming_even_smaller.mp4");
 	isPlaying = true;
 	vidPlayer.play();
-	vidPlayer.setLoopState(OF_LOOP_NORMAL);\
+	vidPlayer.setLoopState(OF_LOOP_NORMAL);
 
-	mesh.setMode(OF_PRIMITIVE_LINES);
+	//mesh.setMode(OF_PRIMITIVE_LINES);
 }
 
 void swarming::update()
@@ -37,10 +37,10 @@ void swarming::draw()
 	if (isPlaying)
 	{
 		ofSetHexColor(0xffffff);
-		drawMat(frame, 0, 0);
+		drawMat(frameBW, 0, 0);
 		drawMat(fgMask, 640, 0);
 		drawMat(drawing, 0, 480);
-		drawMat(meshMat, 640, 480);
+		//drawMat(meshMat, 640, 480);
 		//mesh.draw();
 	}
 }
@@ -58,19 +58,19 @@ void swarming::keyPressed(int key)
 
 void swarming::pointsTo3D()
 {
-	mesh.clear();
+	//mesh.clear();
+	//meshMat = Mat::zeros(fgMask.size(), CV_8UC3);
 
-	for (std::vector<Point> vec : approx)
-	{
-		for (Point p : vec)
-		{
-			ofVec3f pos(p.x, p.y, 0.0);
-			mesh.addVertex(pos);
-			mesh.addColor(ofColor::white);
-		}
-	}
-
-	meshMat = toCv(mesh);
+	//for (int i = 0; i < approx.size(); i++)
+	//{
+	//	for (int j = 0; j < approx[i].size(); j++)
+	//	{
+	//		ofVec3f pos(approx[i][j].x, approx[i][j].y, 0.0);
+	//		mesh.addVertex(pos);
+	//		mesh.addColor(ofColor::white);
+	//	}
+	//}
+	
 }
 
 void swarming::edge_detector()
@@ -103,8 +103,8 @@ void swarming::edge_detector()
 
 void swarming::backSubKNN(Mat frame)
 {
-	cvtColor(frame, frame, COLOR_BGR2GRAY);
+	cvtColor(frame, frameBW, COLOR_BGR2GRAY);
 	//frame.convertTo(frame, -1, 0.5, 0);
 	//GaussianBlur(frame, frame, Size(3, 3), 0);
-	pBackSub->apply(frame, fgMask);
+	pBackSub->apply(frameBW, fgMask);
 }

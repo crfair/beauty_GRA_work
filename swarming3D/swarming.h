@@ -28,6 +28,7 @@ private:
 	void pointsTo3D();
 
 	Mat frame;
+	Mat frameBW;
 	Mat fgMask;
 
 	std::vector<std::vector<Point>> contours;
@@ -47,6 +48,7 @@ private:
 
 	bool isPlaying;
 
-	ofMesh mesh;
-	Mat meshMat;
+	//ofMesh mesh;
+	//Mat meshMat;
+	Vec3f points3D;
 };
