@@ -3,11 +3,7 @@
 #include "ofMain.h"
 #include <ofxOpenCv.h>
 #include <ofxCv/src/ofxCv.h>
-//#include <opencv2/imgcodecs.hpp>
-//#include <opencv2/imgproc.hpp>
-//#include <opencv2/videoio.hpp>
-//#include <opencv2/highgui.hpp>
-//#include <opencv2/video.hpp>
+//#include <ofxDelaunay/src/ofxDelaunay.h>
 
 using namespace cv;
 using namespace ofxCv;
@@ -26,6 +22,7 @@ private:
 	void backSubKNN(Mat frame);
 	void edge_detector();
 	void pointsTo3D();
+//	void triangulation();
 
 	Mat frame;
 	Mat frameBW;
@@ -50,5 +47,9 @@ private:
 
 	//ofMesh mesh;
 	//Mat meshMat;
-	Vec3f points3D;
+	//Vec3f points3D;
+
+	//ofxDelaunay delaunay;
+	//ofEasyCam camera;
+	//Mat delaunayMat;
 };
