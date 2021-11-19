@@ -28,7 +28,7 @@ void swarming::update()
 
 		backSubKNN(frame);
 		edge_detector();
-		pointsTo3D();
+		//pointsTo3D();
 	}
 }
 
@@ -69,8 +69,7 @@ void swarming::pointsTo3D()
 	//		mesh.addVertex(pos);
 	//		mesh.addColor(ofColor::white);
 	//	}
-	//}
-	
+	//}	
 }
 
 void swarming::edge_detector()
