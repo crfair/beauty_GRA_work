@@ -3,7 +3,6 @@
 #include "ofMain.h"
 #include <ofxOpenCv.h>
 #include <ofxCv/src/ofxCv.h>
-//#include <ofxDelaunay/src/ofxDelaunay.h>
 
 using namespace cv;
 using namespace ofxCv;
@@ -22,7 +21,7 @@ private:
 	void backSubKNN(Mat frame);
 	void edge_detector();
 	void pointsTo3D();
-//	void triangulation();
+	void triangulation();
 
 	Mat frame;
 	Mat frameBW;
@@ -38,6 +37,8 @@ private:
 	Scalar color_hull = Scalar(255, 0, 0);
 	Scalar color_bounds = Scalar(0, 0, 255);
 	Scalar color_approx = Scalar(0, 255, 255);
+	Scalar color_delaunay = Scalar(255, 255, 255);
+	Scalar color_delaunay_points = Scalar(255, 2555, 0);
 	Rect bounds;
 
 	Ptr<BackgroundSubtractor> pBackSub;
@@ -49,7 +50,5 @@ private:
 	//Mat meshMat;
 	//Vec3f points3D;
 
-	//ofxDelaunay delaunay;
-	//ofEasyCam camera;
-	//Mat delaunayMat;
+	vector<Point2f> points;
 };

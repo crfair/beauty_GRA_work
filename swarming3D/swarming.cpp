@@ -29,7 +29,7 @@ void swarming::update()
 		backSubKNN(frame);
 		edge_detector();
 		//pointsTo3D();
-		//triangulation();
+		// triangulation();
 	}
 }
 
@@ -43,11 +43,6 @@ void swarming::draw()
 		drawMat(drawing, 0, 480);
 		//drawMat(meshMat, 640, 480);
 		//mesh.draw();
-
-		//camera.begin();
-		//ofTranslate(-ofGetWidth() / 2, -ofGetHeight() / 2, 0);
-		//delaunay.triangleMesh.drawWireframe();
-		//camera.end();
 	}
 }
 
@@ -62,21 +57,10 @@ void swarming::keyPressed(int key)
 	}
 }
 
-//void swarming::triangulation()
-//{
-//	delaunayMat = Mat::zeros(fgMask.size(), CV_8UC3);
-//
-//	for (std::vector<Point> vec : approx)
-//	{
-//		for (Point p : vec)
-//		{
-//			ofVec3f point(p.x, p.y);
-//			delaunay.addPoint(point);
-//
-//		}
-//		delaunay.triangulate();
-//	}
-//}
+void swarming::triangulation()
+{
+	
+}
 
 void swarming::pointsTo3D()
 {
