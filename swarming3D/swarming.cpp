@@ -67,6 +67,8 @@ void swarming::triangulation()
 	delaunay = Mat::zeros(frame.size(), CV_8UC3);
 	delaunayPoints.clear();
 
+	Mat approxMat = Mat(frame.size(), CV_8UC3, &approx);
+
 	for (vector<Point> vec : approx)
 	{
 		for (Point p : vec)
@@ -80,7 +82,6 @@ void swarming::triangulation()
 		subdiv.insert(*it);
 	}
 
-	// draw_delaunay(img, subdiv, delaunay_color);
 	vector<Vec6f> triangleList;
 	subdiv.getTriangleList(triangleList);
 	vector<Point> pt(3);
@@ -144,7 +145,7 @@ void swarming::edge_detector()
 		{
 			rectangle(drawing, bounds, color_bounds);
 			//drawContours(drawing, contours, int(i), color_contours, 2, LINE_8, hierarchy, 0);
-			drawContours(drawing, hull, int(i), color_hull, 2, LINE_8, hierarchy, 0);
+			//drawContours(drawing, hull, int(i), color_hull, 2, LINE_8, hierarchy, 0);
 			drawContours(drawing, approx, int(i), color_approx, 2, LINE_8, hierarchy, 0);
 		}
 	}
