@@ -38,7 +38,7 @@ private:
 	Scalar color_bounds = Scalar(0, 0, 255);
 	Scalar color_approx = Scalar(0, 255, 255);
 	Scalar color_delaunay = Scalar(255, 255, 255);
-	Scalar color_delaunay_points = Scalar(255, 2555, 0);
+	Scalar color_delaunay_points = Scalar(255, 255, 0);
 	Rect bounds;
 
 	Ptr<BackgroundSubtractor> pBackSub;
@@ -50,5 +50,7 @@ private:
 	//Mat meshMat;
 	//Vec3f points3D;
 
-	vector<Point2f> points;
+	vector<Point2f> delaunayPoints;
+	Mat delaunay;
+
 };

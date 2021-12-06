@@ -29,7 +29,7 @@ void swarming::update()
 		backSubKNN(frame);
 		edge_detector();
 		//pointsTo3D();
-		// triangulation();
+		triangulation();
 	}
 }
 
@@ -41,6 +41,7 @@ void swarming::draw()
 		drawMat(frameBW, 0, 0);
 		drawMat(fgMask, 640, 0);
 		drawMat(drawing, 0, 480);
+		drawMat(delaunay, 640, 480);
 		//drawMat(meshMat, 640, 480);
 		//mesh.draw();
 	}
@@ -59,7 +60,50 @@ void swarming::keyPressed(int key)
 
 void swarming::triangulation()
 {
-	
+	Size size = frame.size();
+	Rect rect(0, 0, size.width, size.height);
+	Subdiv2D subdiv(rect);
+
+	delaunay = Mat::zeros(frame.size(), CV_8UC3);
+	delaunayPoints.clear();
+
+	for (vector<Point> vec : approx)
+	{
+		for (Point p : vec)
+		{
+			delaunayPoints.push_back(p);
+		}
+	}
+
+	for (vector<Point2f>::iterator it = delaunayPoints.begin(); it != delaunayPoints.end(); it++)
+	{
+		subdiv.insert(*it);
+	}
+
+	// draw_delaunay(img, subdiv, delaunay_color);
+	vector<Vec6f> triangleList;
+	subdiv.getTriangleList(triangleList);
+	vector<Point> pt(3);
+
+	for (size_t i = 0; i < triangleList.size(); i++)
+	{
+		Vec6f t = triangleList[i];
+		pt[0] = Point(cvRound(t[0]), cvRound(t[1]));
+		pt[1] = Point(cvRound(t[2]), cvRound(t[3]));
+		pt[2] = Point(cvRound(t[4]), cvRound(t[5]));
+
+		if (rect.contains(pt[0]) && rect.contains(pt[1]) && rect.contains(pt[2]))
+		{
+			line(delaunay, pt[0], pt[1], color_delaunay, 1, CV_AA, 0);
+			line(delaunay, pt[1], pt[2], color_delaunay, 1, CV_AA, 0);
+			line(delaunay, pt[2], pt[0], color_delaunay, 1, CV_AA, 0);
+		}
+	}
+
+	for (vector<Point2f>::iterator it = delaunayPoints.begin(); it != delaunayPoints.end(); it++)
+	{
+		circle(delaunay, *it, 2, color_delaunay_points, CV_FILLED, CV_AA, 0);
+	}
 }
 
 void swarming::pointsTo3D()
