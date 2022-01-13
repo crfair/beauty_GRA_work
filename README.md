@@ -20,7 +20,7 @@
   <ol>
     <li>Start by cloning this repository to your system using <tt>git clone https://github.com/crfair/beauty_GRA_work.git</tt> in the file location you would like to store it</li>
     <li>Download a stable OpenCV release for Windows (this project uses 4.5.3 at time of writing) from https://opencv.org/releases/. Run the executable that downloads and extract the contents to your desired location.</li>
-    <li>You will need to add OpenCV's binaries to your system path. The beginning of the path will vary depending on where you extracted it to, but it should be something like <tt>C:\OpenCV-4.5.3\opencv\build\x64\vc15\bin</tt>.<li>
+    <li>You will need to add OpenCV's binaries to your system path. The beginning of the path will vary depending on where you extracted it to, but it should be something like <tt>C:\OpenCV-4.5.3\opencv\build\x64\vc15\bin</tt>.</li>
     <li>Download the latest Windows release of openFrameworks. <b>Note that at the time of writing, openFrameworks states that it only supports Visual Studio 2017; however, openFrameworks projects can be retargeted to work on VS 2019.</b> Extract the zip file to your desired location.</li>
     <li>The method of setting up each project in VS will vary depending on if it is an openFrameworks or OpenCV project. BackgroundSubtraction, CannyCountourDetection, and CannyEdgeDetection are openFrameworks projects, while swarming, swarming_meshes, and swarming3D are OpenCV projects.
   </ol>
