@@ -20,7 +20,6 @@ private:
 
 	void backSubKNN(Mat frame);
 	void edge_detector();
-	void pointsTo3D();
 	void triangulation();
 
 	Mat frame;
@@ -46,11 +45,6 @@ private:
 
 	bool isPlaying;
 
-	//ofMesh mesh;
-	//Mat meshMat;
-	//Vec3f points3D;
-
 	vector<Point2f> delaunayPoints;
 	Mat delaunay;
-
 };
