@@ -65,6 +65,9 @@ void swarming::keyPressed(int key)
 	}
 }
 
+/*
+* Perform Delaunay triangulation on the contour points
+*/
 void swarming::triangulation()
 {
 	Size size = frame.size();
@@ -76,11 +79,12 @@ void swarming::triangulation()
 
 	Mat approxMat = Mat(frame.size(), CV_8UC3, &approx);
 
-	for (vector<Point> vec : approx)
+	for (int i = 0; i < approx.size(); i++)
 	{
-		for (Point p : vec)
+		for (int j = 0; j < approx[i].size(); j++)
 		{
-			delaunayPoints.push_back(p);
+			if (contourArea(contours[i]) >= min_contour_area)
+				delaunayPoints.push_back(approx[i][j]);
 		}
 	}
 
@@ -130,13 +134,17 @@ void swarming::edge_detector()
 		approxPolyDP(contours[i], approx[i], epsilon, true);
 	}
 
+	// Create empty Mat to draw on
 	drawing = Mat::zeros(fgMask.size(), CV_8UC3);
 
 	for (size_t i = 0; i < contours.size(); i++)
 	{
+		// Get the bounds of the contours
 		bounds = boundingRect(contours[i]);
 
-		if (contourArea(contours[i]) > 200.0)
+		// If a contour is below a certain size, don't draw it; this prevents the inclusion of very small contours 
+		// for small amounts of bacteria residue in the frame and instead allows us to focus on the swirls and snakes
+		if (contourArea(contours[i]) >= min_contour_area)
 		{
 			rectangle(drawing, bounds, color_bounds);
 			//drawContours(drawing, contours, int(i), color_contours, 2, LINE_8, hierarchy, 0);

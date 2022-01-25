@@ -39,6 +39,7 @@ private:
 	Scalar color_delaunay = Scalar(255, 255, 255);
 	Scalar color_delaunay_points = Scalar(255, 255, 0);
 	Rect bounds;
+	float min_contour_area = 200.0;
 
 	Ptr<BackgroundSubtractor> pBackSub;
 	ofVideoPlayer vidPlayer;
