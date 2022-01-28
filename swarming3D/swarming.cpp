@@ -32,9 +32,14 @@ void swarming::update()
 		if (frame.empty())
 			return;
 
+		size = frame.size();
+		rect = Rect(0, 0, size.width, size.height);
+		subdiv = Subdiv2D(rect);
+
 		backSubKNN(frame);
 		edge_detector();
 		triangulation();
+		voronoi();
 	}
 }
 
@@ -49,19 +54,63 @@ void swarming::draw()
 		drawMat(frameBW, 0, 0);
 		drawMat(fgMask, 640, 0);
 		drawMat(drawing, 0, 480);
-		drawMat(delaunay, 640, 480);
+
+		if (isDelaunay)
+			drawMat(delaunay, 640, 480);
+		else
+			drawMat(voronoiMat, 640, 480);
 	}
 }
 
 void swarming::keyPressed(int key)
 {
-	// If the user presses the spacebar, pause the application.
 	switch (key)
 	{
+	// If the user presses the spacebar, pause the application.
 	case ' ':
 		isPlaying = !isPlaying;
 		ofSetBackgroundAuto(isPlaying);
 		break;
+	// Allow the player to switch between the Delaunay triangulation and voronoi diagram
+	case 'v':
+		isDelaunay = !isDelaunay;
+		break;
+	}
+}
+
+/*
+* Create a Voronoi diagram based on the contour points
+*/
+void swarming::voronoi()
+{
+	voronoiMat = Mat::zeros(size, CV_8UC3);
+	facets.clear();
+	centers.clear();
+
+	Mat approxMat = Mat(frame.size(), CV_8UC3, &approx);
+
+	vector<Point> ifacet;
+	vector<vector<Point>> ifacets(1);
+
+	subdiv.getVoronoiFacetList(vector<int>(), facets, centers);
+
+	for (size_t i = 0; i < facets.size(); i++)
+	{
+		ifacet.resize(facets[i].size());
+		for (size_t j = 0; j < facets[i].size(); j++)
+		{
+			ifacet[j] = facets[i][j];
+		}
+
+		Scalar color;
+		color[0] = rand() & 255;
+		color[1] = rand() & 255;
+		color[2] = rand() & 255;
+		fillConvexPoly(voronoiMat, ifacet, color, 8, 0);
+
+		ifacets[0] = ifacet;
+		polylines(voronoiMat, ifacets, true, Scalar(), 1, CV_AA, 0);
+		circle(voronoiMat, centers[i], 3, Scalar(), CV_FILLED, CV_AA, 0);
 	}
 }
 
@@ -70,18 +119,14 @@ void swarming::keyPressed(int key)
 */
 void swarming::triangulation()
 {
-	Size size = frame.size();
-	Rect rect(0, 0, size.width, size.height);
-	Subdiv2D subdiv(rect);
-
-	delaunay = Mat::zeros(frame.size(), CV_8UC3);
+	delaunay = Mat::zeros(size, CV_8UC3);
 	delaunayPoints.clear();
 
 	Mat approxMat = Mat(frame.size(), CV_8UC3, &approx);
 
-	for (int i = 0; i < approx.size(); i++)
+	for (size_t i = 0; i < approx.size(); i++)
 	{
-		for (int j = 0; j < approx[i].size(); j++)
+		for (size_t j = 0; j < approx[i].size(); j++)
 		{
 			if (contourArea(contours[i]) >= min_contour_area)
 				delaunayPoints.push_back(approx[i][j]);
@@ -127,7 +172,7 @@ void swarming::edge_detector()
 	hull = std::vector<std::vector<Point>>(contours.size());
 	approx = std::vector<std::vector<Point>>(contours.size());
 	// for each of the contours, find the convex hull and approximate curve
-	for (int i = 0; i < contours.size(); i++)
+	for (size_t i = 0; i < contours.size(); i++)
 	{
 		convexHull(Mat(contours[i]), hull[i], false);
 		double epsilon = 0.01 * arcLength(contours[i], true); //determine the number of lines in the polygon as a function of the contour's arc length

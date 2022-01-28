@@ -21,6 +21,7 @@ private:
 	void backSubKNN(Mat frame);
 	void edge_detector();
 	void triangulation();
+	void voronoi();
 
 	Mat frame;
 	Mat frameBW;
@@ -46,6 +47,17 @@ private:
 
 	bool isPlaying;
 
+	// Delaunay and Voronoi functionality was based on code from https://learnopencv.com/delaunay-triangulation-and-voronoi-diagram-using-opencv-c-python/
+
 	vector<Point2f> delaunayPoints;
 	Mat delaunay;
+	Size size;
+	Rect rect;
+	Subdiv2D subdiv;
+
+	bool isDelaunay = true;
+
+	vector<vector<Point2f>> facets;
+	vector<Point2f> centers;
+	Mat voronoiMat;
 };
