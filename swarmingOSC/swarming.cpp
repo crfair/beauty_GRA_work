@@ -1,4 +1,5 @@
 #include "swarming.h"
+#include <iostream>
 
 /*
 * This code runs at the beginning of the program before any other code runs.
@@ -10,6 +11,12 @@ void swarming::setup()
 	isPlaying = true;
 	vidPlayer.play();
 	vidPlayer.setLoopState(OF_LOOP_NORMAL);
+
+	sender.setup("localhost", 12345);
+	receiver.setup(12345);
+
+	font.load("futura_book.otf", 12);
+	ofBackground(150);
 }
 
 /*
@@ -40,6 +47,7 @@ void swarming::update()
 		edge_detector();
 		triangulation();
 		voronoi();
+		sendCentroidsBundle();
 	}
 }
 
@@ -51,15 +59,25 @@ void swarming::draw()
 	if (isPlaying)
 	{
 		ofSetHexColor(0xffffff);
-		drawMat(frameBW, 0, 0);
-		drawMat(fgMask, 640, 0);
-		drawMat(drawing, 0, 480);
+	//	drawMat(frameBW, 0, 0);
+	//	drawMat(fgMask, 640, 0);
+	//	drawMat(drawing, 0, 480);
 
-		if (isDelaunay)
-			drawMat(delaunay, 640, 480);
-		else
-			drawMat(voronoiMat, 640, 480);
+	//	if (isDelaunay)
+	//		drawMat(delaunay, 640, 480);
+	//	else
+	//		drawMat(voronoiMat, 640, 480);
+		drawMat(centroids_mat, 640, 0);
 	}
+
+	ofxOscMessage m;
+	string message = "";
+	while (receiver.hasWaitingMessages())
+	{
+		receiver.getNextMessage(m);
+		message += "x: " + std::to_string(m.getArgAsFloat(0)) + ", y: " + std::to_string(m.getArgAsFloat(1)) + "\n";
+	}
+	font.drawString(message, 50, 50);
 }
 
 void swarming::keyPressed(int key)
@@ -76,6 +94,40 @@ void swarming::keyPressed(int key)
 		isDelaunay = !isDelaunay;
 		break;
 	}
+}
+
+/*
+* Send a bundle of the contour's center points via OSC
+*/
+void swarming::sendCentroidsBundle()
+{
+	centroids_mat = drawing;
+	bundle.clear();
+
+	vector<Moments> mmnts(approx.size());
+
+	vector<Point2f> centroids(approx.size());
+	for (int i = 0; i < approx.size(); i++)
+	{
+		if (contourArea(contours[i]) >= min_contour_area)
+		{
+			mmnts[i] = moments(approx[i], false);
+			centroids[i] = Point2f(mmnts[i].m10 / mmnts[i].m00, mmnts[i].m01 / mmnts[i].m00);
+			circle(centroids_mat, centroids[i], 4, color_centroids, -1, 8, 0);
+		}
+	}
+
+	for (Point2f p : centroids)
+	{
+		if (p != Point2f(0, 0))
+		{
+			m.clear();
+			m.addFloatArg(p.x);
+			m.addFloatArg(p.y);
+			bundle.addMessage(m);
+		}
+	}
+	sender.sendBundle(bundle);
 }
 
 /*

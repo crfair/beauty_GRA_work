@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include <ofxOpenCv.h>
 #include <ofxCv/src/ofxCv.h>
+#include <ofxOsc/src/ofxOsc.h>
 
 using namespace cv;
 using namespace ofxCv;
@@ -22,6 +23,7 @@ private:
 	void edge_detector();
 	void triangulation();
 	void voronoi();
+	void sendCentroidsBundle();
 
 	Mat frame;
 	Mat frameBW;
@@ -60,4 +62,12 @@ private:
 	vector<vector<Point2f>> facets;
 	vector<Point2f> centers;
 	Mat voronoiMat;
+
+	ofxOscSender sender;
+	ofxOscReceiver receiver;
+	ofTrueTypeFont font;
+	ofxOscBundle bundle;
+	ofxOscMessage m;
+	Mat centroids_mat;
+	Scalar color_centroids = Scalar(255, 0, 255);
 };
