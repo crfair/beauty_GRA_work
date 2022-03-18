@@ -2,7 +2,7 @@
 #include "..\swarming.h"
 
 int main() {
-	ofSetupOpenGL(1280, 960, OF_WINDOW);
+	ofSetupOpenGL(1280, 1060, OF_WINDOW);
 	ofRunApp(new swarming());
 	
 	//swarming app;

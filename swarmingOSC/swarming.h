@@ -57,7 +57,7 @@ private:
 	Rect rect;
 	Subdiv2D subdiv;
 
-	bool isDelaunay = true;
+	int view = 0;
 
 	vector<vector<Point2f>> facets;
 	vector<Point2f> centers;

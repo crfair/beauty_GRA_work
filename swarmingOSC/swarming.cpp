@@ -59,15 +59,17 @@ void swarming::draw()
 	if (isPlaying)
 	{
 		ofSetHexColor(0xffffff);
-	//	drawMat(frameBW, 0, 0);
-	//	drawMat(fgMask, 640, 0);
-	//	drawMat(drawing, 0, 480);
+		font.drawString("Press the space key to pause, and the v key to switch between Delaunay triangulation, Voronoi Diagram, and Centroid views", 50, 50);
+		drawMat(frameBW, 0, 100);
+		drawMat(fgMask, 640, 100);
+		drawMat(drawing, 0, 580);
 
-	//	if (isDelaunay)
-	//		drawMat(delaunay, 640, 480);
-	//	else
-	//		drawMat(voronoiMat, 640, 480);
-		drawMat(centroids_mat, 640, 0);
+		if (view == 0)
+			drawMat(delaunay, 640, 580);
+		else if (view == 1)
+			drawMat(voronoiMat, 640, 580);
+		else
+			drawMat(centroids_mat, 640, 580);
 	}
 
 	ofxOscMessage m;
@@ -77,7 +79,7 @@ void swarming::draw()
 		receiver.getNextMessage(m);
 		message += "x: " + std::to_string(m.getArgAsFloat(0)) + ", y: " + std::to_string(m.getArgAsFloat(1)) + "\n";
 	}
-	font.drawString(message, 50, 50);
+	// font.drawString(message, 50, 50);
 }
 
 void swarming::keyPressed(int key)
@@ -91,7 +93,9 @@ void swarming::keyPressed(int key)
 		break;
 	// Allow the player to switch between the Delaunay triangulation and voronoi diagram
 	case 'v':
-		isDelaunay = !isDelaunay;
+		if (view == 2)
+			view = -1;
+		view++;
 		break;
 	}
 }
@@ -101,7 +105,8 @@ void swarming::keyPressed(int key)
 */
 void swarming::sendCentroidsBundle()
 {
-	centroids_mat = drawing;
+	//drawing.copyTo(centroids_mat);
+	centroids_mat = Mat::zeros(size, CV_8UC3);
 	bundle.clear();
 
 	vector<Moments> mmnts(approx.size());
@@ -244,7 +249,7 @@ void swarming::edge_detector()
 		if (contourArea(contours[i]) >= min_contour_area)
 		{
 			rectangle(drawing, bounds, color_bounds);
-			//drawContours(drawing, contours, int(i), color_contours, 2, LINE_8, hierarchy, 0);
+			drawContours(drawing, contours, int(i), color_contours, 2, LINE_8, hierarchy, 0);
 			//drawContours(drawing, hull, int(i), color_hull, 2, LINE_8, hierarchy, 0);
 			drawContours(drawing, approx, int(i), color_approx, 2, LINE_8, hierarchy, 0);
 		}
